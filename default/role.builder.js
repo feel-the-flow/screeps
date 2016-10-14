@@ -1,7 +1,7 @@
 var roleBuilder = {
 
     /** @param {Creep} creep **/
-    run: function(creep) {
+    run: function(creep, spawn_container) {
 
         if(creep.memory.building && creep.carry.energy == 0) {
             creep.memory.building = false;
@@ -21,14 +21,8 @@ var roleBuilder = {
             }
         }
         else {
-            var sources = creep.room.find(FIND_STRUCTURES, {
-                    filter: (structure) => {
-                        return (structure.structureType == STRUCTURE_CONTAINER ) &&
-                            structure.store[RESOURCE_ENERGY] > 0;
-                    }
-            });
-            if(creep.withdraw(sources[0], "energy") == ERR_NOT_IN_RANGE) {
-                creep.moveTo(sources[0]);
+            if(creep.withdraw(spawn_container[0], "energy") == ERR_NOT_IN_RANGE) {
+                creep.moveTo(spawn_container[0]);
             }
         }
     }

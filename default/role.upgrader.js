@@ -1,7 +1,7 @@
 var roleUpgrader = {
 
     /** @param {Creep} creep **/
-    run: function(creep) {
+    run: function(creep, controller_container) {
 
         if(creep.memory.upgrading && creep.carry.energy == 0) {
             creep.memory.upgrading = false;
@@ -18,14 +18,8 @@ var roleUpgrader = {
             }
         }
         else {
-            var sources = creep.room.find(FIND_STRUCTURES, {
-                    filter: (structure) => {
-                        return (structure.structureType == STRUCTURE_CONTAINER ) &&
-                            structure.store[RESOURCE_ENERGY] > 0;
-                    }
-            });
-            if(creep.withdraw(sources[0], "energy") == ERR_NOT_IN_RANGE) {
-                creep.moveTo(sources[0]);
+            if(creep.withdraw(controller_container, "energy") == ERR_NOT_IN_RANGE) {
+                creep.moveTo(controller_container);
             }
         }
     }
