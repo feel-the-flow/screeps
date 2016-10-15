@@ -3,12 +3,26 @@ var roleBuilder = require('role.builder');
 var roleTower=require('role.tower');
 var runHarvest=require('run.harvest');
 var runMovers=require('run.movers');
+var takeRoom=require('take.room');
+var attackRoom=require('attack.room');
+var runHighspeed=require('run.highspeed');
 
 module.exports.loop = function () {
     console.log('----------------------------------------------------------------------------')
+    var highspeed = true;
+    if(highspeed == true){
+        console.log("highspeed")
+        runHighspeed.run();
+    }
+    else{
     for(var i in Game.rooms) {
+
         var room_source_container = []
         var current_room = Game.rooms[i];
+
+        var my = current_room.controller.my
+        //attackRoom.run(current_room, my)
+
         var sources = current_room.find(FIND_SOURCES)
         for(i=0; i<sources.length;i++){
             var container = sources[i].pos.findClosestByRange(FIND_STRUCTURES, {
@@ -22,7 +36,7 @@ module.exports.loop = function () {
             {
                     filter: (structure) => {
                         return (structure.structureType == STRUCTURE_CONTAINER)
-                        //&&structure.store[RESOURCE_ENERGY] < structure.storeCapacity;
+                        &&structure.store[RESOURCE_ENERGY] > 0;
                     }
             });
         var spawn_container_d = Game.spawns.Spawn1.pos.findInRange(FIND_STRUCTURES, 3,
@@ -36,8 +50,7 @@ module.exports.loop = function () {
             FIND_STRUCTURES,
             {
                     filter: (structure) => {
-                        return (structure.structureType == STRUCTURE_CONTAINER)&&
-                        structure.store[RESOURCE_ENERGY] < structure.storeCapacity;
+                        return (structure.structureType == STRUCTURE_CONTAINER);
                     }
             });
         //console.log(sources[0].pos)
@@ -55,7 +68,7 @@ module.exports.loop = function () {
     console.log('Builders: ' + builders.length);
 
     runMovers.run(room_source_container, spawn_container,controller_container,
-    spawn_container_d)
+    spawn_container_d, current_room)
 
 
 
@@ -64,7 +77,7 @@ module.exports.loop = function () {
             [WORK,WORK,WORK,WORK,WORK,
             CARRY,CARRY,CARRY,CARRY,CARRY,
             CARRY,CARRY,CARRY,CARRY,CARRY,
-            MOVE,MOVE,MOVE,MOVE,MOVE,MOVE], undefined, {role: 'upgrader'});
+            MOVE,MOVE,MOVE], undefined, {role: 'upgrader'});
         console.log('Spawning new upgrader: ' + newName);
     }
     if(builders.length < 2 && Object.keys(Game.constructionSites).length>0) {
@@ -86,4 +99,5 @@ module.exports.loop = function () {
             roleBuilder.run(creep, spawn_container);
         }
     }
+}
 }

@@ -6,10 +6,10 @@ var runHarvest = {
             for(i=0; i<sources.length;i++){
                 var h = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester'
                 && creep.memory.source==i);
-                if(h.length<2){
+                if(h.length<1){
                     var newName = Game.spawns['Spawn1'].createCreep(
-                        [WORK,WORK,WORK,WORK,WORK,
-                            CARRY,CARRY,CARRY,CARRY,CARRY,
+                        [WORK,WORK,WORK,WORK,WORK,WORK,
+                            CARRY,CARRY,CARRY,
                             CARRY,CARRY,CARRY,CARRY,CARRY,
                             MOVE,MOVE,MOVE,MOVE,MOVE,MOVE],
                         undefined, {role: 'harvester',source: i});
