@@ -2,7 +2,6 @@ var roleUpgrader = {
 
     /** @param {Creep} creep **/
     run: function(creep, controller_container) {
-
         if(creep.memory.upgrading && creep.carry.energy == 0) {
             creep.memory.upgrading = false;
             creep.say('harvesting');
@@ -18,6 +17,7 @@ var roleUpgrader = {
             }
         }
         else {
+
             if(creep.withdraw(controller_container, "energy") == ERR_NOT_IN_RANGE) {
                 creep.moveTo(controller_container);
             }
