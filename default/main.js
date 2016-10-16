@@ -1,3 +1,4 @@
+require('prototype.spawn')();
 var roleUpgrader = require('role.upgrader');
 var roleBuilder = require('role.builder');
 var roleTower=require('role.tower');
@@ -9,29 +10,31 @@ var runHighspeed=require('run.highspeed');
 
 module.exports.loop = function () {
     console.log('----------------------------------------------------------------------------')
-    var highspeed = true;
+    var highspeed = false;
     if(highspeed == true){
         console.log("highspeed")
-        runHighspeed.run();
+        //runHighspeed.run();
     }
     else{
     for(var i in Game.rooms) {
-
+        // some variables
+        var energy = Game.spawns.Spawn1.room.energyCapacityAvailable;
         var room_source_container = []
         var current_room = Game.rooms[i];
-
         var my = current_room.controller.my
-        //attackRoom.run(current_room, my)
-
         var sources = current_room.find(FIND_SOURCES)
+        // find all containers that are close to sources
         for(i=0; i<sources.length;i++){
             var container = sources[i].pos.findClosestByRange(FIND_STRUCTURES, {
                     filter: (structure) => {
                         return (structure.structureType == STRUCTURE_CONTAINER);
                     }
             });
+            if(container!=null){
             room_source_container.push(container.id)
         }
+        }
+
         var spawn_container = Game.spawns.Spawn1.pos.findInRange(FIND_STRUCTURES, 3,
             {
                     filter: (structure) => {
@@ -39,6 +42,7 @@ module.exports.loop = function () {
                         &&structure.store[RESOURCE_ENERGY] > 0;
                     }
             });
+
         var spawn_container_d = Game.spawns.Spawn1.pos.findInRange(FIND_STRUCTURES, 3,
             {
                     filter: (structure) => {
@@ -46,14 +50,13 @@ module.exports.loop = function () {
                         &&structure.store[RESOURCE_ENERGY] < structure.storeCapacity;
                     }
             });
-        var controller_container = current_room.controller.pos.findClosestByRange(
-            FIND_STRUCTURES,
+        var controller_container = current_room.controller.pos.findInRange(
+            FIND_STRUCTURES,4,
             {
                     filter: (structure) => {
                         return (structure.structureType == STRUCTURE_CONTAINER);
                     }
             });
-        //console.log(sources[0].pos)
         runHarvest.run(current_room, room_source_container);
     }
     for(var name in Memory.creeps) {
@@ -71,25 +74,20 @@ module.exports.loop = function () {
     spawn_container_d, current_room)
 
 
-
-    if(upgraders.length < 2) {
-        var newName = Game.spawns['Spawn1'].createCreep(
-            [WORK,WORK,WORK,WORK,WORK,
-            CARRY,CARRY,CARRY,CARRY,CARRY,
-            CARRY,CARRY,CARRY,CARRY,CARRY,
-            MOVE,MOVE,MOVE], undefined, {role: 'upgrader'});
+    if(builders.length < 4 && Object.keys(Game.constructionSites).length>0) {
+        var newName = Game.spawns['Spawn1'].createCustomCreep(energy, 'builder');
+        console.log('Spawning new builder: ' + newName);var newName = Game.spawns['Spawn1'].createCustomCreep(energy, 'builder', 0);
+    }
+    if(upgraders.length < 4) {
+        var newName = Game.spawns['Spawn1'].createCustomCreep(energy, 'upgrader');
         console.log('Spawning new upgrader: ' + newName);
     }
-    if(builders.length < 2 && Object.keys(Game.constructionSites).length>0) {
-        var newName = Game.spawns['Spawn1'].createCreep(
-            [WORK,WORK,WORK,WORK,WORK,
-            CARRY,CARRY,CARRY,CARRY,CARRY,
-            CARRY,CARRY,CARRY,CARRY,CARRY,
-            MOVE,MOVE,MOVE,MOVE,MOVE,MOVE], undefined, {role: 'builder'});
-        console.log('Spawning new builder: ' + newName);
-    }
+
     var towers = Game.spawns.Spawn1.room.find(FIND_MY_STRUCTURES, {filter: {structureType: STRUCTURE_TOWER}});
-    roleTower.run(towers);
+    if (towers.length!=0){
+            roleTower.run(towers);
+    }
+
     for(var name in Game.creeps) {
         var creep = Game.creeps[name];
         if(creep.memory.role == 'upgrader') {

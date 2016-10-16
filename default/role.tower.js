@@ -21,6 +21,10 @@ var roleTower = {
                 towers[0].repair(repair_container[0]);
             }
             }
+        var target = towers[0].pos.findClosestByRange(FIND_HOSTILE_CREEPS);
+        if (target != undefined) {
+            tower.attack(target);
+}
         }
     }
 

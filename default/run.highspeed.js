@@ -37,7 +37,7 @@ var runHighspeed = {
     var minimumNumberOfHarvesters = 4;
     var minimumNumberOfUpgraders = 1;
     var minimumNumberOfBuilders = 4;
-
+    var energy = Game.spawns.Spawn1.room.energyCapacityAvailable;
     // count the number of creeps alive for each role
     // _.sum will count the number of properties in Game.creeps filtered by the
     //  arrow function, which checks for the creep being a harvester
@@ -47,7 +47,7 @@ var runHighspeed = {
     var numberOfBuilders = _.sum(Game.creeps, (c) => c.memory.role == 'builder');
     console.log(numberOfHarvesters0 + '  ' + numberOfHarvesters1)
     var name = undefined;
-    console.log(_.sum(Game.creeps, (c) => c.memory.role == 'builder'))
+    console.log("n_builder " + _.sum(Game.creeps, (c) => c.memory.role == 'builder'))
     console.log(_.sum(Game.creeps, (c) => c.memory.role == 'upgrader'))
     // if not enough harvesters
     if (numberOfHarvesters0 < (minimumNumberOfHarvesters-4)) {
@@ -68,8 +68,7 @@ var runHighspeed = {
     // if not enough builders
     else if (numberOfBuilders < minimumNumberOfBuilders) {
         // try to spawn one
-        name = Game.spawns.Spawn1.createCreep([WORK,WORK,CARRY,MOVE], undefined,
-            { role: 'builder', working: false});
+        name = Game.spawns.Spawn1.createCustomCreep(energy, 'builder');
     }
     else {
         // else try to spawn a builder
