@@ -74,7 +74,7 @@ module.exports.loop = function () {
     spawn_container_d, current_room)
 
 
-    if(builders.length < 2 && Object.keys(Game.constructionSites).length>0) {
+    if(builders.length < 1 && Object.keys(Game.constructionSites).length>0) {
         var newName = Game.spawns['Spawn1'].createCustomCreep(energy, 'builder');
         console.log('Spawning new builder: ' + newName);var newName = Game.spawns['Spawn1'].createCustomCreep(1000, 'builder', 0);
     }

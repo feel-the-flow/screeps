@@ -23,7 +23,7 @@ var roleTower = {
             }
         var target = towers[0].pos.findClosestByRange(FIND_HOSTILE_CREEPS);
         if (target != undefined) {
-            tower.attack(target);
+            towers[0].attack(target);
 }
         }
     }

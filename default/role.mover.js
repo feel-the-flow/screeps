@@ -11,13 +11,14 @@ var roleMover = {
             }
         }
         // if no energy is lying around, take some energy from the spawn container
-        else if(dropped_energy.length == 0 && creep.carry.energy<creep.carryCapacity){
+        else if(dropped_energy.length == 0 && creep.carry.energy<creep.carryCapacity && spawn_container.length != 0){
             if(creep.withdraw(spawn_container[0], "energy") == ERR_NOT_IN_RANGE) {
                 creep.moveTo(spawn_container[0]);
             }
         }
 
         else if(dropped_energy.length == 0 && spawn_container.length == 0 && creep.carry.energy<creep.carryCapacity){
+
             if(creep.withdraw(current_room.storage, "energy") == ERR_NOT_IN_RANGE) {
                 creep.moveTo(current_room.storage);
             }
