@@ -12,7 +12,7 @@ var roleMover2 = {
                 creep.moveTo(container);
             }
             // if no container present, pick up dropped energy
-            if(container==null||container.store[RESOURCE_ENERGY]==0){
+            else if(container==null || container.store[RESOURCE_ENERGY]==0){
             if (creep.pickup(dropped_energy[0]) == ERR_NOT_IN_RANGE) {
                 creep.moveTo(dropped_energy[0]);
             }

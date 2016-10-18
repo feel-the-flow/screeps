@@ -21,7 +21,7 @@ var runMovers = {
             console.log('Spawning new mover: ' + newName);
         }
         if(movers.length < 1) {
-            var newName = Game.spawns['Spawn1'].createMoverCreep(energy, 'mover', -1);
+            var newName = Game.spawns['Spawn1'].createMoverCreep(800, 'mover', -1);
             console.log('Spawning new mover: ' + newName);
         }
         for(var name in Game.creeps) {

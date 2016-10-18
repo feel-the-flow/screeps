@@ -74,12 +74,12 @@ module.exports.loop = function () {
     spawn_container_d, current_room)
 
 
-    if(builders.length < 4 && Object.keys(Game.constructionSites).length>0) {
+    if(builders.length < 2 && Object.keys(Game.constructionSites).length>0) {
         var newName = Game.spawns['Spawn1'].createCustomCreep(energy, 'builder');
-        console.log('Spawning new builder: ' + newName);var newName = Game.spawns['Spawn1'].createCustomCreep(energy, 'builder', 0);
+        console.log('Spawning new builder: ' + newName);var newName = Game.spawns['Spawn1'].createCustomCreep(1000, 'builder', 0);
     }
-    if(upgraders.length < 4) {
-        var newName = Game.spawns['Spawn1'].createCustomCreep(energy, 'upgrader');
+    if(upgraders.length < 2) {
+        var newName = Game.spawns['Spawn1'].createCustomCreep(1000, 'upgrader');
         console.log('Spawning new upgrader: ' + newName);
     }
 
@@ -91,10 +91,10 @@ module.exports.loop = function () {
     for(var name in Game.creeps) {
         var creep = Game.creeps[name];
         if(creep.memory.role == 'upgrader') {
-            roleUpgrader.run(creep, controller_container);
+            roleUpgrader.run(creep, controller_container, current_room);
         }
         if(creep.memory.role == 'builder') {
-            roleBuilder.run(creep, spawn_container);
+            roleBuilder.run(creep, spawn_container, current_room);
         }
     }
 }
