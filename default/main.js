@@ -7,6 +7,7 @@ var runMovers=require('run.movers');
 var takeRoom=require('take.room');
 var attackRoom=require('attack.room');
 var runHighspeed=require('run.highspeed');
+var roleLink=require('role.link');
 
 module.exports.loop = function () {
     console.log('----------------------------------------------------------------------------')
@@ -23,6 +24,8 @@ module.exports.loop = function () {
         var current_room = Game.rooms[i];
         var my = current_room.controller.my
         var sources = current_room.find(FIND_SOURCES)
+        var spawn_link = Game.spawns.Spawn1.room.storage.pos.findClosestByRange(FIND_STRUCTURES, {filter: (structure) => {return (structure.structureType == STRUCTURE_LINK)}})
+        var controller_link = Game.spawns.Spawn1.room.controller.pos.findClosestByRange(FIND_STRUCTURES, {filter: (structure) => {return (structure.structureType == STRUCTURE_LINK)}})
         // find all containers that are close to sources
         for(i=0; i<sources.length;i++){
             var container = sources[i].pos.findClosestByRange(FIND_STRUCTURES, {
@@ -71,7 +74,7 @@ module.exports.loop = function () {
     console.log('Builders: ' + builders.length);
 
     runMovers.run(room_source_container, spawn_container,controller_container,
-    spawn_container_d, current_room)
+    spawn_container_d, current_room, spawn_link, controller_link)
 
 
     if(builders.length < 1 && Object.keys(Game.constructionSites).length>0) {
@@ -91,11 +94,15 @@ module.exports.loop = function () {
     for(var name in Game.creeps) {
         var creep = Game.creeps[name];
         if(creep.memory.role == 'upgrader') {
-            roleUpgrader.run(creep, controller_container, current_room);
+            roleUpgrader.run(creep, controller_container, current_room, controller_link);
         }
         if(creep.memory.role == 'builder') {
             roleBuilder.run(creep, spawn_container, current_room);
         }
+
+    }
+    if (spawn_link!=null && controller_link!=null){
+        roleLink.run(current_room, spawn_link, controller_link)
     }
 }
 }

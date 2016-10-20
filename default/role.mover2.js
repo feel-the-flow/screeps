@@ -9,7 +9,7 @@ var roleMover2 = {
                 creep.moveTo(current_room.storage);
             }
         }
-
+    else {
         // pick up resources from different locations
         if(creep.carry.energy<creep.carryCapacity*0.25){
             var container =Game.getObjectById( room_source_container[creep.memory.source])
@@ -69,6 +69,7 @@ var roleMover2 = {
                 }
             }
         }
+    }
     }
 };
 

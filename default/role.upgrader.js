@@ -1,7 +1,8 @@
 var roleUpgrader = {
 
     /** @param {Creep} creep **/
-    run: function(creep, controller_container, current_room) {
+    run: function(creep, controller_container, current_room, controller_link) {
+
         var dropped_energy = creep.room.find(FIND_DROPPED_ENERGY);
         if(creep.memory.upgrading && creep.carry.energy == 0) {
 
@@ -20,15 +21,20 @@ var roleUpgrader = {
             }
         }
         else {
-
             if (controller_container.length==0 && dropped_energy.length>0){
 
-
-                if (creep.pickup(dropped_energy) == ERR_NOT_IN_RANGE) {
+                if (creep.pickup(dropped_energy[0]) == ERR_NOT_IN_RANGE) {
                     // move towards the source
-                    creep.moveTo(dropped_energy);
+                    creep.moveTo(dropped_energy[0]);
                 }
 
+            }
+            else if(controller_container==0 && dropped_energy==0 && controller_link!=null && controller_link.energy>0){
+                console.log("going to link")
+                if (creep.withdraw(controller_link, "energy") == ERR_NOT_IN_RANGE) {
+                    // move towards the source
+                    creep.moveTo(controller_link);
+                }
             }
             else if (controller_container.length==0 && dropped_energy.length==0){
                 if (creep.withdraw(current_room.storage, "energy") == ERR_NOT_IN_RANGE) {

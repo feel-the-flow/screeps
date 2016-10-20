@@ -2,7 +2,7 @@
 var roleMover = require('role.mover')
 var runMovers = {
     run: function(room_source_container, spawn_container,controller_container,spawn_container_d,
-    current_room) {
+    current_room, spawn_link, controller_link) {
         var energy = Game.spawns.Spawn1.room.energyCapacityAvailable;
         var movers1 = _.filter(Game.creeps, (creep) => creep.memory.role == 'mover2' &&
             creep.memory.source==0);
@@ -30,7 +30,7 @@ var runMovers = {
                 roleMover2.run(creep, room_source_container,spawn_container_d,current_room);
             }
             if(creep.memory.role == 'mover') {
-                roleMover.run(creep, spawn_container, controller_container, current_room,spawn_container_d);
+                roleMover.run(creep, spawn_container, controller_container, current_room,spawn_container_d, spawn_link, controller_link);
             }
         }
     }
