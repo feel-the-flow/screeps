@@ -35,11 +35,17 @@ module.exports = {
         // if creep is supposed to harvest energy from source
         else {
             // find closest source
-            var source = creep.room.find(FIND_SOURCES);
+            var sources = creep.room.find(FIND_SOURCES);
+            if (creep.memory.source ==0){
+                var source = sources[0]
+            }
+            else if (creep.memory.source == 1){
+                var source = sources[1]
+            }
             // try to harvest energy, if the source is not in range
-            if (creep.harvest(source[0]) == ERR_NOT_IN_RANGE) {
+            if (creep.harvest(source) == ERR_NOT_IN_RANGE) {
                 // move towards the source
-                creep.moveTo(source[0]);
+                creep.moveTo(source);
             }
         }
     }

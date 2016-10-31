@@ -4,16 +4,18 @@ var roleMover2 = {
     run: function(creep, room_source_container, spawn_container_d, current_room)
     {
 
-        if (creep.carry.energy==0 && current_room.energyAvailable < current_room.energyCapacityAvailable && current_room.storage.store[RESOURCE_ENERGY] > 5000){
+        if (creep.carry.energy==0 && current_room.energyAvailable < current_room.energyCapacityAvailable && current_room.storage != undefined && current_room.storage.store[RESOURCE_ENERGY] > 5000){
             if(creep.withdraw(current_room.storage, "energy") == ERR_NOT_IN_RANGE) {
                 creep.moveTo(current_room.storage);
             }
         }
     else {
+        var container =Game.getObjectById( room_source_container[creep.memory.source])
+        var dropped_energy = creep.room.find(FIND_DROPPED_ENERGY);
         // pick up resources from different locations
-        if(creep.carry.energy<creep.carryCapacity*0.25){
-            var container =Game.getObjectById( room_source_container[creep.memory.source])
-            var dropped_energy = creep.room.find(FIND_DROPPED_ENERGY);
+        if(creep.carry.energy<creep.carryCapacity*0.25 ){
+
+
 
             if(creep.withdraw(container, "energy") == ERR_NOT_IN_RANGE) {
                 creep.moveTo(container);
@@ -41,7 +43,7 @@ var roleMover2 = {
             var tower = creep.room.find(FIND_STRUCTURES, {
                     filter: (structure) => {
                         return (structure.structureType == STRUCTURE_TOWER) &&
-                            structure.energy < structure.energyCapacity*0.5;
+                            structure.energy < structure.energyCapacity*0.75;
                     }
             });
             // now priority building first fill up any spawn like structures

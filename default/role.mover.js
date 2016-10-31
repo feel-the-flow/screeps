@@ -3,9 +3,7 @@ var roleMover = {
     /** @param {Creep} creep **/
     run: function(creep, spawn_container, controller_container,current_room,spawn_container_d, spawn_link, controller_link) {
         // if energy is lying around take it and move it somewhere
-        console.log(spawn_link!=0 && spawn_link.energy < spawn_link.energyCapacity)
         var dropped_energy = creep.room.find(FIND_DROPPED_ENERGY);
-        console.log("here")
         if(dropped_energy.length > 0 && creep.carry.energy<creep.carryCapacity){
             if(creep.pickup(dropped_energy[0]) == ERR_NOT_IN_RANGE) {
                 creep.moveTo(dropped_energy[0]);
@@ -43,7 +41,6 @@ var roleMover = {
         else{
             var drop_off = controller_container[0];
         }
-        console.log(drop_off)
         if(creep.carry.energy>0.9*creep.carryCapacity){
 
             if(creep.transfer(drop_off, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {

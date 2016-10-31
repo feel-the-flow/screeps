@@ -21,7 +21,7 @@ module.exports = function() {
             function(energy, roleName, source) {
                 // create a balanced body as big as possible with the given energy
                 if (energy > 550){
-                    var body = [WORK,WORK,WORK,WORK,MOVE]
+                    var body = [WORK,WORK,WORK,WORK,WORK,MOVE]
                 }
                 else{
                 var numberOfWorkParts = Math.floor(energy/100);

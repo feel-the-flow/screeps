@@ -10,6 +10,8 @@ var runMovers = {
             creep.memory.source==1);
         var movers = _.filter(Game.creeps, (creep) => creep.memory.role == 'mover'&&
             creep.memory.source==-1);
+
+
         console.log('Movers 1: ' + movers1.length + ' Movers 2: ' + movers2.length
             + ' Movers: '+ movers.length);
         if(movers1.length < 1 && room_source_container.length>1) {
@@ -21,7 +23,7 @@ var runMovers = {
             console.log('Spawning new mover: ' + newName);
         }
         if(movers.length < 1) {
-            var newName = Game.spawns['Spawn1'].createMoverCreep(800, 'mover', -1);
+            var newName = Game.spawns['Spawn1'].createMoverCreep(energy, 'mover', -1);
             console.log('Spawning new mover: ' + newName);
         }
         for(var name in Game.creeps) {

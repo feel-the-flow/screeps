@@ -50,7 +50,7 @@ var runHighspeed = {
     console.log("n_builder " + _.sum(Game.creeps, (c) => c.memory.role == 'builder'))
     console.log(_.sum(Game.creeps, (c) => c.memory.role == 'upgrader'))
     // if not enough harvesters
-    if (numberOfHarvesters0 < (minimumNumberOfHarvesters-4)) {
+    if (numberOfHarvesters0 < (minimumNumberOfHarvesters-2)) {
         // try to spawn one
         name = Game.spawns.Spawn1.createCreep([WORK,WORK,CARRY,MOVE], undefined,
             { role: 'harvester', working: false, source:0});

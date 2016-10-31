@@ -2,7 +2,10 @@ var roleBuilder = {
 
     /** @param {Creep} creep **/
     run: function(creep, spawn_container, current_room) {
-        var dropped_energy = []//creep.room.find(FIND_DROPPED_ENERGY);
+        if(current_room.find(FIND_CONSTRUCTION_SITES).length == 0){
+            creep.memory.role = "upgrader"
+        }
+        var dropped_energy = creep.room.find(FIND_DROPPED_ENERGY);
         if(creep.memory.building && creep.carry.energy == 0) {
             creep.memory.building = false;
             creep.say('harvesting');
