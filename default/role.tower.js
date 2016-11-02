@@ -6,13 +6,15 @@ var roleTower = {
         var repair_wall = Game.spawns.Spawn1.room.find(FIND_STRUCTURES, {filter: (structure) => {return (structure.structureType == STRUCTURE_WALL) && structure.hits < 150000;}});
         var repair_container = Game.spawns.Spawn1.room.find(FIND_STRUCTURES, {filter: (structure) => {return (structure.structureType == STRUCTURE_CONTAINER) && structure.hits < 250000;}});
         var target = towers[0].pos.findClosestByRange(FIND_HOSTILE_CREEPS);
-
+        console.log(target)
         if(!towers[0].energy == 0) {
             for(var id in towers) {
                 var tower = towers[id]
                 if (target != undefined) {
+                    console.log(target, tower)
                     tower.attack(target);
         }
+        else {
             console.log("ramparts to repair: " + repair_rampart.length + ", walls to repair: " + repair_wall.length + ",  roads to repair: " + repair_road.length + ",  container to repair: " + repair_container.length);
             if(repair_rampart.length>0){
 
@@ -27,6 +29,7 @@ var roleTower = {
             else if(repair_container.length>0 && repair_rampart.length==0&&repair_road.length==0){
                 tower.repair(repair_container[0]);
             }
+        }
             }
         }
 
